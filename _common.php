@@ -6,6 +6,29 @@ $loggedIn = $_SESSION['userid'] ?? 0;
 
 $url = '';
 
+define_env_vars();
+
+function define_env_vars() {
+  global $url;
+  $vars = $path = '';
+  foreach (['.env', '../', '../'] as $part) {
+    if (file_exists($path = $part.$path)) {
+      $vars = file_get_contents($path);
+      break;
+    }
+  }
+  $vars or exit('Config file not found.');
+  foreach (explode("\n", $vars) as $var) {
+    if (2 == count($var = explode('=', $var, 2))) {
+      [$name, $value] = [trim($var[0]), trim($var[1])];
+      $name && ('#' !== substr($name, 0, 1)) && define($name, $value);
+    }
+  }
+  if (defined('URL_DIR')) {
+    $url = rtrim(URL_DIR, '/');
+  }
+}
+
 function redirect($path, $xor = false) {
   global $loggedIn, $url;
   if ($loggedIn xor $xor) {
