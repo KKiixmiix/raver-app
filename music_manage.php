@@ -19,7 +19,7 @@ if (!empty($_POST['musicid'] ?? '')) {
     $query = "DELETE FROM songs WHERE musicid = ?";
     $stmt = mysqli_prepare($dbc, $query);
     mysqli_stmt_bind_param($stmt, "i", $musicid);
-    if (!mysqli_stmt_execute($stmt)) { 
+    if (!mysqli_stmt_execute($stmt)) {
       $echo = '<h2>We were unable to delete the song at this time.</h2>';
     } else {
       $echo = '<h2>The song was successfully deleted.</h2>';
@@ -56,7 +56,7 @@ else {
   <body>
     <?php main(); ?>
     <h2>Edit your song (ID <?=$musicid?>):</h2>
-    <form action="<?=$url?>/update_music.php" method="post">
+    <form action="<?=$url?>/music_update.php" method="post">
       <h3>Title:  <input type="text" name="title"  value="<?=$title?>"></h3>
       <h3>Artist: <input type="text" name="artist" value="<?=$artist?>"></h3>
       <input type="hidden" name="musicid" value="<?=$musicid?>">

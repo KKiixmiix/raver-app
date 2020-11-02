@@ -60,8 +60,8 @@ function main() {
   $links = $loggedIn ? [
     'HOME'       => '',
     'LOG OUT'    => 'logout.php',
-    'List Music' => 'list_music.php',
-    'Add Music'  => 'add_music.php',
+    'List Music' => 'songs/list.php',
+    'Add Music'  => 'songs/add.php',
   ] : ['HOME' => ''];
   foreach ($links as $text => $link) {
     $a[] = "<a href=\"$url/$link\"><b>$text</b></a>";

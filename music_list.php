@@ -11,7 +11,7 @@ $stmt = mysqli_prepare($dbc, $query);
 
 mysqli_stmt_bind_param($stmt, "i", $userid);
 
-if(!mysqli_stmt_execute($stmt)) { 
+if(!mysqli_stmt_execute($stmt)) {
   echo "<h2>Oh no! Something went wrong!</h2>".mysqli_error($dbc);
   mysqli_close($dbc);
   exit;
@@ -32,7 +32,7 @@ mysqli_close($dbc);
   <body>
     <?php main(); ?>
     <h2>List my music</h2>
-    <form action="<?=$url?>/manage_music.php" method="post">
+    <form action="<?=$url?>/music_manage.php" method="post">
       <table border=1 cellpadding=5 style="border-collapse: collapse;">
         <tr>
           <th>ID</th>

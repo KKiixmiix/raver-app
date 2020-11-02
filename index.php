@@ -14,8 +14,8 @@ require_once '_common.php';
     <h3>Links to queries:</h3>
     <ul>
 <?php if ($loggedIn): ?>
-      <li><a href="<?=$url?>/add_music.php">Add a song!</a></li>
-      <li><a href="<?=$url?>/list_music.php">List my music</a></li>
+      <li><a href="<?=$url?>/songs/add.php">Add a song!</a></li>
+      <li><a href="<?=$url?>/songs/list.php">List my music</a></li>
 <?php else: ?>
       <li><a href="<?=$url?>/raver_login.php">Welcome Login Page</a></li>
 <?php endif; ?>
