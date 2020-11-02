@@ -58,10 +58,10 @@ function main() {
   global $url, $loggedIn;
   user();
   $links = $loggedIn ? [
-    'HOME'       => '',
-    'LOG OUT'    => 'logout.php',
-    'List Music' => 'songs/list.php',
-    'Add Music'  => 'songs/add.php',
+    'HOME'    => '',
+    'LOG OUT' => 'logout.php',
+    'Music'   => 'songs/list.php',
+    'Venue'   => 'venue/list.php',
   ] : ['HOME' => ''];
   foreach ($links as $text => $link) {
     $a[] = "<a href=\"$url/$link\"><b>$text</b></a>";

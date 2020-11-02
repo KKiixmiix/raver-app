@@ -3,21 +3,22 @@ require_once '../_common.php';
 login();
 
 /*This code assumes user input is valid and correct only for demo purposes - it does NOT validate form data.*/
-if (!empty($_POST['musicid'] ?? '')) {
-  $musicid = sanitize('musicid');
-  $title   = sanitize('title');
-  $artist  = sanitize('artist');
+if (!empty($_POST['venueid'] ?? '')) {
+  $venueid = sanitize('venueid');
+  $name  = sanitize('name');
+  $address = sanitize('address');
+  $contact = sanitize('contact');
   require_once('../DBconfig.php');
-  $message = "$musicid/$title/$artist";
+  $message = "$venueid/$name/$address/$contact";
 
   # UPDATE
-  $query = "UPDATE songs SET title = ?, artist = ? WHERE musicid = ?";
+  $query = "UPDATE venues SET name = ?, address = ?, contact = ? WHERE venueid = ?";
   $stmt = mysqli_prepare($dbc, $query);
-  mysqli_stmt_bind_param($stmt, "ssi", $title, $artist, $musicid);
+  mysqli_stmt_bind_param($stmt, "sssi", $name, $address, $contact, $venueid);
   if (!mysqli_stmt_execute($stmt)) {
-    $message = "We were unable to update the song at this time.";
+    $message = "We were unable to update the venue at this time.";
   } else {
-    $message = "The song \"$title\" (by $artist) was successfully updated.";
+    $message = "The venue location \"$name\" was successfully updated.";
   }
   $message .= mysqli_error($dbc);
 } else {
