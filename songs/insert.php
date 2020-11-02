@@ -1,5 +1,5 @@
 <?php
-require_once '_common.php';
+require_once '../_common.php';
 login();
 
 /*This code assumes user input is valid and correct only for demo purposes - it does NOT validate form data.*/
@@ -7,7 +7,7 @@ if (!empty($_POST['title'] ?? '')) { //must have at least a title and not = NULL
   $title  = sanitize('title');
   $artist = sanitize('artist');
   $userid = $loggedIn;
-  require_once('DBconfig.php');
+  require_once('../DBconfig.php');
 
   $query = "INSERT INTO songs(title, artist, userid) VALUES (?,?,?)";
   $stmt = mysqli_prepare($dbc, $query);

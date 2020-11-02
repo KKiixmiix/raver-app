@@ -1,5 +1,5 @@
 <?php
-require_once '_common.php';
+require_once '../_common.php';
 login();
 
 /*This code assumes user input is valid and correct only for demo purposes - it does NOT validate form data.*/
@@ -11,7 +11,7 @@ if (!empty($_POST['musicid'] ?? '')) {
     exit('<h2>Something is not right</h2>');
   }
 
-  require_once('DBconfig.php');
+  require_once('../DBconfig.php');
 
   # Perform DELETE and exit
   if ($type == 'd') {
@@ -56,7 +56,7 @@ else {
   <body>
     <?php main(); ?>
     <h2>Edit your song (ID <?=$musicid?>):</h2>
-    <form action="<?=$url?>/music_update.php" method="post">
+    <form action="<?=$url?>/songs/update.php" method="post">
       <h3>Title:  <input type="text" name="title"  value="<?=$title?>"></h3>
       <h3>Artist: <input type="text" name="artist" value="<?=$artist?>"></h3>
       <input type="hidden" name="musicid" value="<?=$musicid?>">

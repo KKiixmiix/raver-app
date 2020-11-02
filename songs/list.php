@@ -1,9 +1,9 @@
 <?php
-require_once '_common.php';
+require_once '../_common.php';
 login();
 
 /*This code assumes user input is valid and correct only for demo purposes - it does NOT validate form data.*/
-require_once('DBconfig.php');
+require_once('../DBconfig.php');
 $userid = $loggedIn;
 
 $query = "SELECT musicid, title, artist FROM songs WHERE userid = ?";
@@ -32,7 +32,7 @@ mysqli_close($dbc);
   <body>
     <?php main(); ?>
     <h2>List my music</h2>
-    <form action="<?=$url?>/music_manage.php" method="post">
+    <form action="<?=$url?>/songs/manage.php" method="post">
       <table border=1 cellpadding=5 style="border-collapse: collapse;">
         <tr>
           <th>ID</th>

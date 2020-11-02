@@ -1,5 +1,5 @@
 <?php
-require_once '_common.php';
+require_once '../_common.php';
 login();
 ?>
 <!DOCTYPE html>
@@ -11,7 +11,7 @@ login();
   <body>
     <?php main(); ?>
     <h2>Add your music:</h2>
-    <form action="<?=$url?>/music_insert.php" method="post">
+    <form action="<?=$url?>/songs/insert.php" method="post">
       <h3>Title:  <input type="text" name="title"></h3>
       <h3>Artist: <input type="text" name="artist"></h3>
       <input type="submit" value="Submit">
