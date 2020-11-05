@@ -54,7 +54,7 @@ mysqli_close($dbc);
       <input type="submit" value="Edit/Delete">
     </form>
     <ul>
-      <li><a href="/songs/add.php"><b>Add song</b></a></li>
+      <li><a href="<?=$url?>/songs/add.php"><b>Add song</b></a></li>
     </ul>
   </body>
 </html>
