@@ -59,7 +59,7 @@ function main() {
   user();
   $links = $loggedIn ? [
     'HOME'     => '',
-    'Users'    => 'users.php',
+    'Users'    => 'users/list.php',
     'Event'    => 'events/list.php',
     'Venue'    => 'venue/list.php',
     'Music'    => 'songs/list.php',

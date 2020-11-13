@@ -19,15 +19,16 @@ if (!empty($_POST['hostuserid'] ?? '')) { //must have at least a theme and not =
   $venueid = sanitize('venueid');
   // $venueid = $_GET['venueid'];
   $userid = $loggedIn;
+  $eventid = $userid*100 + $eventNo;
   require_once('../DBconfig.php');
   $message = "$hostuserid/$eventNo/$theme/$datetime_start/$datetime_end/$venueid";  //
   // exit($message);
 
-  $query = "INSERT INTO events(hostuserid, eventNo, theme, datetime_start, datetime_end, venueid) VALUES (?,?,?,?,?,?)";  //, datetime_start, datetime_end
+  $query = "INSERT INTO events(eventid, hostuserid, eventNo, theme, datetime_start, datetime_end, venueid) VALUES (?,?,?,?,?,?,?)";  //, datetime_start, datetime_end
   $stmt = mysqli_prepare($dbc, $query);
 
   //second argument one for each ? either i(integer), d(double), b(blob), s(string or anything else)
-  mysqli_stmt_bind_param($stmt, "iisssi", $hostuserid, $eventNo, $theme, $datetime_start, $datetime_end, $venueid); //
+  mysqli_stmt_bind_param($stmt, "iiisssi", $eventid, $hostuserid, $eventNo, $theme, $datetime_start, $datetime_end, $venueid); //
 
   if(!mysqli_stmt_execute($stmt)) {
     echo "<h2>Oh no! Your event could not be added!</h2>".mysqli_error($dbc);
