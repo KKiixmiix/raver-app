@@ -14,9 +14,16 @@ if (!empty($_POST['userid'] ?? '')) {
   $message = "$userid/$last_name/$first_name/$email/$phone/$password";
 
   # UPDATE
-  $query = "UPDATE items SET last_name=?, first_name=?, email=?, phone=?, password=? FROM users WHERE userid=?";
-  $stmt = mysqli_prepare($dbc, $query);
-  mysqli_stmt_bind_param($stmt, "sssisi", $last_name, $first_name, $email, $phone, $password, $userid);
+  if ($password) { # update password if non-empty string was passed
+    $password = md5($password);
+    $query = "UPDATE users SET last_name=?, first_name=?, email=?, phone=?, password=? WHERE userid=?";
+    $stmt = mysqli_prepare($dbc, $query);
+    mysqli_stmt_bind_param($stmt, "sssssi", $last_name, $first_name, $email, $phone, $password, $userid);
+  } else { # otherwise do not touch the password
+    $query = "UPDATE users SET last_name=?, first_name=?, email=?, phone=? WHERE userid=?";
+    $stmt = mysqli_prepare($dbc, $query);
+    mysqli_stmt_bind_param($stmt, "ssssi", $last_name, $first_name, $email, $phone, $userid);
+  }
   if (!mysqli_stmt_execute($stmt)) {
     $message = "We were unable to update the profile at this time.";
   } else {

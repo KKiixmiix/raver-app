@@ -37,8 +37,8 @@ mysqli_close($dbc);
           <th>ID</th>
           <th>Event</th>
           <th>Theme</th>
-          <th>Date Start Time</th>
-          <th>Date End Time</th>
+          <th>Start Date/Time</th>
+          <th>End Date/Time</th>
           <th>Edit</th>
           <th>Delete</th>
         </tr>

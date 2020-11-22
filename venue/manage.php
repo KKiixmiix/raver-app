@@ -56,7 +56,7 @@ else {
   <body>
     <?php main(); ?>
     <h2>Edit your venue (ID <?=$venueid?>):</h2>
-    <form action="<?=$url?>/venue/update.php" method="post">
+    <form action="<?=$url?>/venues/update.php" method="post">
       <h3>Name:  <input type="text" name="name" value="<?=$name?>"></h3>
       <h3>Address: <input type="text" name="address" value="<?=$address?>"></h3>
       <h3>Contact: <input type="text" name="contact" value="<?=$contact?>"></h3>

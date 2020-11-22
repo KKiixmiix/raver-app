@@ -29,7 +29,7 @@ mysqli_close($dbc);
   </head>
   <body>
     <?php main(); ?>
-    <h2>Item</h2>
+    <h2>Users</h2>
     <form action="<?=$url?>/users/manage.php" method="post">
       <table border=1 cellpadding=5 style="border-collapse: collapse;">
         <tr>
@@ -38,18 +38,16 @@ mysqli_close($dbc);
           <th>Last Name</th>
           <th>Contact Email</th>
           <th>Contact Number</th>
-          <th>Password</th>
           <th>Edit</th>
           <th>Delete</th>
         </tr>
 <?php foreach ($users??[] as $user): extract($user); ?>
         <tr>
           <th><?=$userid?></th>
-          <td><?=$last_name?></td>
           <td><?=$first_name?></td>
+          <td><?=$last_name?></td>
           <td><?=$email?></td>
           <td><?=$phone?></td>
-          <td><?=$password?></td>
           <th><input type="radio" name="userid" value="u-<?=$userid?>"></th>
           <th><input type="radio" name="userid" value="d-<?=$userid?>"></th>
         </tr>

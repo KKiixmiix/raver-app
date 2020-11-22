@@ -55,13 +55,13 @@ else {
   </head>
   <body>
     <?php main(); ?>
-    <h2>Edit your profile (ID <?=$userid?>):</h2>
+    <h2>Edit User profile (ID <?=$userid?>):</h2>
     <form action="<?=$url?>/users/update.php" method="post">
       <h3>Raver patron:  <input type="text" name="first_name" value="<?=$first_name?>"></h3>
       <h3>Last name:  <input type="text" name="last_name" value="<?=$last_name?>"></h3>
       <h3>Contact email: <input type="text" name="email" value="<?=$email?>"></h3>
       <h3>Contact number: <input type="text" name="phone" value="<?=$phone?>"></h3>
-      <h3>Password: <input type="text" name="password" value="<?=$password?>"></h3>
+      <h3>Password: <input type="password" name="password" value=""></h3>
       <input type="hidden" name="userid" value="<?=$userid?>">
       <input type="submit" value="Update">
     </form>

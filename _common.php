@@ -10,10 +10,11 @@ define_env_vars();
 
 function define_env_vars() {
   global $url;
+  $abs = dirname(__FILE__) . '/';
   $vars = $path = '';
   foreach (['.env', '../', '../'] as $part) {
-    if (file_exists($path = $part.$path)) {
-      $vars = file_get_contents($path);
+    if (file_exists($abs . ($path = $part.$path))) {
+      $vars = file_get_contents($abs . $path);
       break;
     }
   }
@@ -61,7 +62,7 @@ function main() {
     'HOME'     => '',
     'Users'    => 'users/list.php',
     'Event'    => 'events/list.php',
-    'Venue'    => 'venue/list.php',
+    'Venue'    => 'venues/list.php',
     'Music'    => 'songs/list.php',
     'Activity' => 'activities/list.php',
     'Item'     => 'items/list.php',

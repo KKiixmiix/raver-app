@@ -31,7 +31,7 @@ mysqli_close($dbc);
   <body>
     <?php main(); ?>
     <h2>Venue Location</h2>
-    <form action="<?=$url?>/venue/manage.php" method="post">
+    <form action="<?=$url?>/venues/manage.php" method="post">
       <table border=1 cellpadding=5 style="border-collapse: collapse;">
         <tr>
           <th>ID</th>
@@ -55,7 +55,7 @@ mysqli_close($dbc);
       <input type="submit" value="Edit/Delete">
     </form>
     <ul>
-      <li><a href="<?=$url?>/venue/add.php"><b>Add venue</b></a></li>
+      <li><a href="<?=$url?>/venues/add.php"><b>Add venue</b></a></li>
     </ul>
   </body>
 </html>

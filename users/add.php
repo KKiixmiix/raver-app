@@ -16,7 +16,7 @@ login();
       <h3>Last Name:  <input type="text" name="last_name"></h3>
       <h3>Contact email: <input type="text" name="email"></h3>
       <h3>Contact number: <input type="text" name="phone"></h3>
-      <h3>Password: <input type="text" name="password"></h3>
+      <h3>Password: <input type="password" name="password"></h3>
       <input type="submit" value="Submit">
     </form>
   </body>

@@ -8,14 +8,14 @@ if (!empty($_POST['first_name'] ?? '')) { //must have at least a first_name and 
   $last_name  = sanitize('last_name');
   $email = sanitize('email');
   $phone = sanitize('phone');
-  $password = sanitize('password');
+  $password = md5(sanitize('password'));
   require_once('../DBconfig.php');
 
   $query = "INSERT INTO users(last_name, first_name, email, phone, password) VALUES (?,?,?,?,?)";
   $stmt = mysqli_prepare($dbc, $query);
 
   //second argument one for each ? either i(integer), d(double), b(blob), s(string or anything else)
-  mysqli_stmt_bind_param($stmt, "sssisi", $last_name, $first_name, $email, $phone, $password, $userid);
+  mysqli_stmt_bind_param($stmt, "sssss", $last_name, $first_name, $email, $phone, $password);
 
   if(!mysqli_stmt_execute($stmt)) {
     echo "<h2>Oh no! Your profile could not be added!</h2>".mysqli_error($dbc);
