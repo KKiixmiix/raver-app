@@ -5,7 +5,12 @@ login();
 /*This code assumes user input is valid and correct only for demo purposes - it does NOT validate form data.*/
 require_once('../DBconfig.php');
 
-$query = "SELECT itemid, item_name, catid FROM items";
+### REQ-1: two-table join
+$query = <<<SQL
+SELECT itemid, item_name, name cat_name
+  FROM items
+  JOIN item_categories USING(catid)
+SQL;
 $stmt = mysqli_prepare($dbc, $query);
 
 // mysqli_stmt_bind_param($stmt);
@@ -36,7 +41,7 @@ mysqli_close($dbc);
         <tr>
           <th>ID</th>
           <th>Item</th>
-          <th>Catid</th>
+          <th>Category</th>
           <th>Edit</th>
           <th>Delete</th>
         </tr>
@@ -44,7 +49,7 @@ mysqli_close($dbc);
         <tr>
           <th><?=$itemid?></th>
           <td><?=$item_name?></td>
-          <td><?=$catid?></td>
+          <td><?=$cat_name?></td>
           <th><input type="radio" name="itemid" value="u-<?=$itemid?>"></th>
           <th><input type="radio" name="itemid" value="d-<?=$itemid?>"></th>
         </tr>

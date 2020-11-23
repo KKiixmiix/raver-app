@@ -6,11 +6,21 @@ login();
 require_once('../DBconfig.php');
 $userid = $loggedIn;
 
-$query = "SELECT musicid, title, artist FROM songs WHERE userid = ?";
+### REQ-4: aggregate function
+$query = "SELECT SUM(minutes) FROM songs WHERE userid = ?";
 $stmt = mysqli_prepare($dbc, $query);
-
 mysqli_stmt_bind_param($stmt, "i", $userid);
+if(!mysqli_stmt_execute($stmt)) {
+  echo "<h2>Oh no! Something went wrong!</h2>".mysqli_error($dbc);
+  mysqli_close($dbc);
+  exit;
+}
+$result = mysqli_stmt_get_result($stmt);
+$total = mysqli_fetch_all($result)[0][0];
 
+$query = "SELECT musicid, title, artist, minutes, userid FROM songs WHERE userid = ?";
+$stmt = mysqli_prepare($dbc, $query);
+mysqli_stmt_bind_param($stmt, "i", $userid);
 if(!mysqli_stmt_execute($stmt)) {
   echo "<h2>Oh no! Something went wrong!</h2>".mysqli_error($dbc);
   mysqli_close($dbc);
@@ -38,6 +48,7 @@ mysqli_close($dbc);
           <th>ID</th>
           <th>Title</th>
           <th>Artist</th>
+          <th>Playtime</th>
           <th>Edit</th>
           <th>Delete</th>
         </tr>
@@ -46,10 +57,18 @@ mysqli_close($dbc);
           <th><?=$musicid?></th>
           <td><?=$title  ?></td>
           <td><?=$artist ?></td>
+          <td><?=$minutes?></td>
           <th><input type="radio" name="musicid" value="u-<?=$musicid?>"></th>
           <th><input type="radio" name="musicid" value="d-<?=$musicid?>"></th>
         </tr>
 <?php endforeach; ?>
+        <tfoot>
+          <tr>
+            <th colspan="3" align="right">Total Playtime (in minutes)</th>
+            <th><?=$total?></th>
+            <th colspan="2"></th>
+          </tr>
+        </tfoot>
       </table>
       <input type="submit" value="Edit/Delete">
     </form>

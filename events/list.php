@@ -5,7 +5,14 @@ login();
 /*This code assumes user input is valid and correct only for demo purposes - it does NOT validate form data.*/
 require_once('../DBconfig.php');
 
-$query = "SELECT eventid, hostuserid, eventNo, theme, datetime_start, datetime_end, venueid FROM events";  //
+### REQ-2: three-table join
+$query = <<<SQL
+  SELECT eventid, hostuserid, eventNo, theme, datetime_start, datetime_end, venueid, first_name, last_name, v.name
+  FROM events e
+  JOIN venues v USING(venueid)
+  JOIN users u ON (u.userid = e.hostuserid)
+  ORDER BY last_name, first_name, datetime_start DESC, eventNo DESC
+SQL;
 $stmt = mysqli_prepare($dbc, $query);
 
 // mysqli_stmt_bind_param($stmt);
@@ -36,7 +43,9 @@ mysqli_close($dbc);
         <tr>
           <th>ID</th>
           <th>Event</th>
+          <th>Host</th>
           <th>Theme</th>
+          <th>Location</th>
           <th>Start Date/Time</th>
           <th>End Date/Time</th>
           <th>Edit</th>
@@ -46,7 +55,9 @@ mysqli_close($dbc);
         <tr>
           <th><?=$eventid?></th>
           <th><?=$eventNo?></th>
+          <td><?=$last_name?>, <?=$first_name?></td>
           <td><?=$theme?></td>
+          <td><?=$name?></td>
           <td><?=$datetime_start?></td>
           <td><?=$datetime_end?></td>
           <th><input type="radio" name="eventid" value="u-<?=$eventid?>"></th>

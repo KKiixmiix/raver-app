@@ -5,6 +5,7 @@ login();
 /*This code assumes user input is valid and correct only for demo purposes - it does NOT validate form data.*/
 if (!empty($_POST['userid'] ?? '')) {
   $userid = sanitize('userid');
+  $invitedby = sanitize('invitedby');
   $last_name  = sanitize('last_name');
   $first_name  = sanitize('first_name');
   $email  = sanitize('email');
@@ -16,13 +17,13 @@ if (!empty($_POST['userid'] ?? '')) {
   # UPDATE
   if ($password) { # update password if non-empty string was passed
     $password = md5($password);
-    $query = "UPDATE users SET last_name=?, first_name=?, email=?, phone=?, password=? WHERE userid=?";
+    $query = "UPDATE users SET invitedby=?, last_name=?, first_name=?, email=?, phone=?, password=? WHERE userid=?";
     $stmt = mysqli_prepare($dbc, $query);
-    mysqli_stmt_bind_param($stmt, "sssssi", $last_name, $first_name, $email, $phone, $password, $userid);
+    mysqli_stmt_bind_param($stmt, "isssssi", $invitedby, $last_name, $first_name, $email, $phone, $password, $userid);
   } else { # otherwise do not touch the password
-    $query = "UPDATE users SET last_name=?, first_name=?, email=?, phone=? WHERE userid=?";
+    $query = "UPDATE users SET invitedby=?, last_name=?, first_name=?, email=?, phone=? WHERE userid=?";
     $stmt = mysqli_prepare($dbc, $query);
-    mysqli_stmt_bind_param($stmt, "ssssi", $last_name, $first_name, $email, $phone, $userid);
+    mysqli_stmt_bind_param($stmt, "issssi", $invitedby, $last_name, $first_name, $email, $phone, $userid);
   }
   if (!mysqli_stmt_execute($stmt)) {
     $message = "We were unable to update the profile at this time.";

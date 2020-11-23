@@ -5,7 +5,12 @@ login();
 /*This code assumes user input is valid and correct only for demo purposes - it does NOT validate form data.*/
 require_once('../DBconfig.php');
 
-$query = "SELECT userid, last_name, first_name, email, phone, password FROM users";
+### REQ-3: self-join
+$query = <<<SQL
+SELECT u.userid, u.last_name, u.first_name, u.email, u.phone, r.first_name invitor_first, r.last_name invitor_last
+  FROM      users u
+  LEFT JOIN users r ON (r.userid = u.invitedby)
+SQL;
 $stmt = mysqli_prepare($dbc, $query);
 
 // mysqli_stmt_bind_param($stmt);
@@ -38,6 +43,7 @@ mysqli_close($dbc);
           <th>Last Name</th>
           <th>Contact Email</th>
           <th>Contact Number</th>
+          <th>Invited By User</th>
           <th>Edit</th>
           <th>Delete</th>
         </tr>
@@ -48,6 +54,7 @@ mysqli_close($dbc);
           <td><?=$last_name?></td>
           <td><?=$email?></td>
           <td><?=$phone?></td>
+          <td><?=join(', ', array_filter([$invitor_last, $invitor_first]))?></td>
           <th><input type="radio" name="userid" value="u-<?=$userid?>"></th>
           <th><input type="radio" name="userid" value="d-<?=$userid?>"></th>
         </tr>

@@ -57,7 +57,10 @@ else {
     <?php main(); ?>
     <h2>Edit events (ID <?=$eventid?>):</h2>
     <form action="<?=$url?>/events/update.php" method="post">
-      <h3>Theme:  <input type="text" name="theme" value="<?=$theme?>"></h3>
+      <h3>Theme: <input type="text" name="theme" value="<?=$theme?>"></h3>
+      <h3>Location: <input type="text" name="venueid" value="<?=$venueid?>"></h3>
+      <h3>Start Date/Time: <input type="text" name="datetime_start" value="<?=$datetime_start?>"></h3>
+      <h3>End Date/Time: <input type="text" name="datetime_end" value="<?=$datetime_end?>"></h3>
       <input type="hidden" name="eventid" value="<?=$eventid?>">
       <input type="submit" value="Update">
     </form>

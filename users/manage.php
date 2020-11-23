@@ -29,7 +29,7 @@ if (!empty($_POST['userid'] ?? '')) {
   }
 
   # Prepare UPDATE
-  $query = "SELECT last_name, first_name, email, phone, password FROM users WHERE userid=?";
+  $query = "SELECT invitedby, last_name, first_name, email, phone, password FROM users WHERE userid=?";
   $stmt = mysqli_prepare($dbc, $query);
   mysqli_stmt_bind_param($stmt, "i", $userid);
   if (!mysqli_stmt_execute($stmt)) {
@@ -62,6 +62,7 @@ else {
       <h3>Contact email: <input type="text" name="email" value="<?=$email?>"></h3>
       <h3>Contact number: <input type="text" name="phone" value="<?=$phone?>"></h3>
       <h3>Password: <input type="password" name="password" value=""></h3>
+      <h3>Invited by User ID: <input type="text" name="invitedby" value="<?=$invitedby?>"></h3>
       <input type="hidden" name="userid" value="<?=$userid?>">
       <input type="submit" value="Update">
     </form>

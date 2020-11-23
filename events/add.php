@@ -12,12 +12,11 @@ login();
     <?php main(); ?>
     <h2>Event:</h2>
     <form action="insert.php" method="post"> <!--?=$url?>/events/ "get"-->
-      <h3>Theme:  <input type="text" name="theme"></h3>
-      <h3>Host:  <input type="text" name="hostuserid"></h3>
-      <h3>Event Number:  <input type="text" name="eventNo"></h3>
-      <h3>Date Start Time:  <input type="text" name="datetime_start"></h3>
-      <h3>Date End Time:  <input type="text" name="datetime_end"></h3>
-      <h3>Venue:  <input type="text" name="venueid"></h3>
+      <h3>Theme: <input type="text" name="theme" value="RAVE!"></h3>
+      <h3>Host: <input type="text" name="hostuserid" value="<?=$loggedIn?>"></h3>
+      <h3>Start Date/Time: <input type="text" name="datetime_start" value="2020-02-20 02:20:02"></h3>
+      <h3>End Date/Time: <input type="text" name="datetime_end" value="2020-02-20 02:20:03"></h3>
+      <h3>Venue: <input type="text" name="venueid" value="4"></h3>
       <input type="submit" value="Submit">
     </form>
   </body>
