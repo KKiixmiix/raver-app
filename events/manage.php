@@ -6,7 +6,7 @@ login();
 if (!empty($_POST['eventid'] ?? '')) {
   $eventid = sanitize('eventid');
   [$type, $eventid] = explode('-', $eventid) + [null, null];
-  if (!(in_array($type, ['u', 'd']) && is_numeric($eventid))) {
+  if (!(in_array($type, ['u', 'd', 'a']) && is_numeric($eventid))) {
     main();
     exit('<h2>Something is not right</h2>');
   }
@@ -26,7 +26,7 @@ if (!empty($_POST['eventid'] ?? '')) {
     }
     mysqli_close($dbc);
     exit($echo);
-  }
+  } elseif ($type == 'u'){
 
   # Prepare UPDATE
   $query = "SELECT hostuserid, eventNo, theme, datetime_start, datetime_end, venueid FROM events WHERE eventid=?";  //
@@ -41,6 +41,22 @@ if (!empty($_POST['eventid'] ?? '')) {
   $events = mysqli_fetch_assoc($result);
   extract($events);
   mysqli_close($dbc);
+}else{
+    $query = "INSERT INTO event_attendees(eventid, userid) VALUES (?,?)";
+    $stmt = mysqli_prepare($dbc, $query);
+    mysqli_stmt_bind_param($stmt, "ii",$eventid, $loggedIn);
+    if (!mysqli_stmt_execute($stmt)) {
+      mysqli_close($dbc);
+      main();
+      exit('<h2>You are already listed as an attendee for this event!</h2>' . mysqli_error($dbc));
+    }else{
+      mysqli_close($dbc);
+      main();
+      $echo = '<h2>You were successfully added as an attendee.</h2>';
+      exit($echo);
+    }
+}
+
 }
 else {
   main();
