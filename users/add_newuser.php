@@ -11,7 +11,7 @@ home();
   <body>
     <?php main(); ?>
     <h2>Raver Patron:</h2>
-    <form action="<?=$url?>/users/insert.php" method="post">
+    <form action="<?=$url?>/users/insert_newuser.php" method="post">
       <h3>Raver Patron:  <input type="text" name="first_name"></h3>
       <h3>Last Name:  <input type="text" name="last_name"></h3>
       <h3>Contact email: <input type="text" name="email"></h3>
