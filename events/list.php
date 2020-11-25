@@ -7,7 +7,7 @@ require_once('../DBconfig.php');
 
 ### REQ-2: three-table join
 $query = <<<SQL
-  SELECT eventid, hostuserid, eventNo, theme, datetime_start, datetime_end, venueid, first_name, last_name, v.name
+  SELECT eventid, hostuserid, eventNo, theme, getNumUsers(eventid) as attendees, datetime_start, datetime_end, venueid, first_name, last_name, v.name
   FROM events e
   JOIN venues v USING(venueid)
   JOIN users u ON (u.userid = e.hostuserid)
@@ -46,10 +46,12 @@ mysqli_close($dbc);
           <th>Host</th>
           <th>Theme</th>
           <th>Location</th>
+          <th>Attendees</th>
           <th>Start Date/Time</th>
           <th>End Date/Time</th>
           <th>Edit</th>
           <th>Delete</th>
+          <th>Attend</th>
         </tr>
 <?php foreach ($events??[] as $event): extract($event); ?>
         <tr>
@@ -58,14 +60,16 @@ mysqli_close($dbc);
           <td><?=$last_name?>, <?=$first_name?></td>
           <td><?=$theme?></td>
           <td><?=$name?></td>
+          <td><?=$attendees?></td>
           <td><?=$datetime_start?></td>
           <td><?=$datetime_end?></td>
           <th><input type="radio" name="eventid" value="u-<?=$eventid?>"></th>
           <th><input type="radio" name="eventid" value="d-<?=$eventid?>"></th>
+          <th><input type="radio" name="eventid" value="a-<?=$eventid?>"></th>
         </tr>
 <?php endforeach; ?>
       </table>
-      <input type="submit" value="Edit/Delete">
+      <input type="submit" value="Edit/Delete/Attend">
     </form>
     <ul>
       <li><a href="<?=$url?>/events/add.php"><b>Add event</b></a></li>
