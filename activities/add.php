@@ -11,7 +11,7 @@ login();
   <body>
     <?php main(); ?>
     <h2>Event location:</h2>
-    <form action="<?=$url?>/activities/insert.php" method="post">
+    <form action="<?=url('activities/insert.php')?>" method="post">
       <h3>Activity:  <input type="text" name="act_name"></h3>
       <input type="submit" value="Submit">
     </form>

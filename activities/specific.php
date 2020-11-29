@@ -1,9 +1,10 @@
 <?php
 require_once '../_common.php';
 login();
+$activity_name = $_GET["activity_name"];
 
-# Activities found:
-$activities = sql('SELECT actid, act_name FROM activities');
+$query = "SELECT actid, act_name FROM activities WHERE act_name LIKE '%$activity_name%'";
+$activities = sql($query);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,10 +14,10 @@ $activities = sql('SELECT actid, act_name FROM activities');
   </head>
   <body>
     <?php main(); ?>
-    <h2>Activities</h2>
+    <h2>Activitiesy</h2>
     <form action="<?=url('activities/specific.php')?>" method="get">
       <label for="activity_name">Search activities: &nbsp;&nbsp;</label>
-      <input type="text" id="activity_name" name="activity_name" autofocus>
+      <input type="text" name="activity_name" id="activity_name" autofocus>
       <input type="submit" id="submit" value="Search"><br><br>
     </form>
     <form action="<?=url('activities/manage.php')?>" method="post">
