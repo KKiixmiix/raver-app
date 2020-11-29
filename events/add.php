@@ -11,7 +11,7 @@ login();
   <body>
     <?php main(); ?>
     <h2>Event:</h2>
-    <form action="insert.php" method="post"> <!--?=$url?>/events/ "get"-->
+    <form action="<?=url('events/insert.php')?>" method="post">
       <h3>Theme: <input type="text" name="theme" value="RAVE!"></h3>
       <h3>Host: <input type="text" name="hostuserid" value="<?=$loggedIn?>"></h3>
       <h3>Start Date/Time: <input type="text" name="datetime_start" value="2020-02-20 02:20:02"></h3>

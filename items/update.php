@@ -2,37 +2,12 @@
 require_once '../_common.php';
 login();
 
-/*This code assumes user input is valid and correct only for demo purposes - it does NOT validate form data.*/
-if (!empty($_POST['itemid'] ?? '')) {
-  $itemid = sanitize('itemid');
-  $item_name  = sanitize('item_name');
-  $catid = sanitize('catid');
-  require_once('../DBconfig.php');
-  $message = "$itemid/$item_name/$catid";
+# Get item id, quit if none was given:
+quit_unless($itemid = sanitize('itemid'), 'No item ID was passed for processing.');
+# Get the rest of the passed values:
+$catid     = sanitize('catid');
+$item_name = sanitize('item_name');
 
-  # UPDATE
-  $query = "UPDATE items SET item_name = ?, catid = ? WHERE itemid = ?";
-  $stmt = mysqli_prepare($dbc, $query);
-  mysqli_stmt_bind_param($stmt, "sii", $item_name, $catid, $itemid);
-  if (!mysqli_stmt_execute($stmt)) {
-    $message = "We were unable to update the item at this time.";
-  } else {
-    $message = "The item \"$item_name\" was successfully updated.";
-  }
-  $message .= mysqli_error($dbc);
-} else {
-  $message = "You have reached this page in error";
-}
-mysqli_close($dbc);
-?>
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Raver App</title>
-    <meta charset="utf-8">
-  </head>
-  <body>
-    <?php main(); ?>
-    <h2><?=$message?></h2>
-  </body>
-</html>
+# UPDATE
+$query = 'UPDATE items SET item_name=?, catid=? WHERE itemid=?';
+update('item', $query, 'sii', $itemid, $item_name, $catid, $itemid);

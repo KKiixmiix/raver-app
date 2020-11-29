@@ -1,6 +1,6 @@
 <?php
 require_once '../_common.php';
-home();
+login();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,9 +11,9 @@ home();
   <body>
     <?php main(); ?>
     <h2>Raver Patron:</h2>
-    <form action="<?=$url?>/users/insert.php" method="post">
-      <h3>Raver Patron:  <input type="text" name="first_name"></h3>
-      <h3>Last Name:  <input type="text" name="last_name"></h3>
+    <form action="<?=url('users/insert.php')?>" method="post">
+      <h3>First Name: <input type="text" name="first_name"></h3>
+      <h3>Last Name: <input type="text" name="last_name"></h3>
       <h3>Contact email: <input type="text" name="email"></h3>
       <h3>Contact number: <input type="text" name="phone"></h3>
       <h3>Password: <input type="password" name="password"></h3>

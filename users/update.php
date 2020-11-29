@@ -2,48 +2,27 @@
 require_once '../_common.php';
 login();
 
-/*This code assumes user input is valid and correct only for demo purposes - it does NOT validate form data.*/
-if (!empty($_POST['userid'] ?? '')) {
-  $userid = sanitize('userid');
-  $invitedby = sanitize('invitedby');
-  $last_name  = sanitize('last_name');
-  $first_name  = sanitize('first_name');
-  $email  = sanitize('email');
-  $phone = sanitize('phone');
-  $password = sanitize('password');
-  require_once('../DBconfig.php');
-  $message = "$userid/$last_name/$first_name/$email/$phone/$password";
+# Get user id, quit if none was given:
+quit_unless($userid = sanitize('userid'), 'No user ID was passed for processing.');
+# Get the rest of the passed values:
+$last_name  = sanitize('last_name');
+$first_name = sanitize('first_name');
+$email      = sanitize('email');
+$phone      = sanitize('phone')     ?: null;
+$password   = sanitize('password')  ?: null;
+$invitedby  = sanitize('invitedby') ?: null;
 
-  # UPDATE
-  if ($password) { # update password if non-empty string was passed
-    $password = md5($password);
-    $query = "UPDATE users SET invitedby=?, last_name=?, first_name=?, email=?, phone=?, password=? WHERE userid=?";
-    $stmt = mysqli_prepare($dbc, $query);
-    mysqli_stmt_bind_param($stmt, "isssssi", $invitedby, $last_name, $first_name, $email, $phone, $password, $userid);
-  } else { # otherwise do not touch the password
-    $query = "UPDATE users SET invitedby=?, last_name=?, first_name=?, email=?, phone=? WHERE userid=?";
-    $stmt = mysqli_prepare($dbc, $query);
-    mysqli_stmt_bind_param($stmt, "issssi", $invitedby, $last_name, $first_name, $email, $phone, $userid);
-  }
-  if (!mysqli_stmt_execute($stmt)) {
-    $message = "We were unable to update the profile at this time.";
-  } else {
-    $message = "The profile for\"$first_name $last_name\" was successfully updated.";
-  }
-  $message .= mysqli_error($dbc);
-} else {
-  $message = "You have reached this page in error";
+# UPDATE
+$params = [$invitedby, $last_name, $first_name, $email, $phone];
+[$qp, $types] = ['', 'issssi'];
+# Update password if non-empty string was passed:
+if ($password) {
+  $params[] = md5($password);
+  [$qp, $types] = [', password=?', 'isssssi'];
 }
-mysqli_close($dbc);
-?>
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Raver App</title>
-    <meta charset="utf-8">
-  </head>
-  <body>
-    <?php main(); ?>
-    <h2><?=$message?></h2>
-  </body>
-</html>
+# Add user id to params:
+$params[] = $userid;
+# Modify the query string to include or omit the password:
+$query = sprintf('UPDATE users SET invitedby=?, last_name=?, first_name=?, email=?, phone=?%s WHERE userid=?', $qp);
+# Perform the update:
+update('user', $query, $types, $userid, ...$params);

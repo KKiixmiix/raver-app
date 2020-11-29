@@ -11,7 +11,7 @@ login();
   <body>
     <?php main(); ?>
     <h2>Event location:</h2>
-    <form action="<?=$url?>/venues/insert.php" method="post">
+    <form action="<?=url('venues/insert.php')?>" method="post">
       <h3>Name:  <input type="text" name="name"></h3>
       <h3>Address: <input type="text" name="address"></h3>
       <h3>Contact: <input type="text" name="contact"></h3>
