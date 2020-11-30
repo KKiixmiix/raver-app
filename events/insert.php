@@ -2,7 +2,6 @@
 ini_set("display_errors", 1);
 require_once '../_common.php';
 login();
-
 /*This code assumes user input is valid and correct only for demo purposes - it does NOT validate form data.*/
 if (!empty($_POST['hostuserid'] ?? '')) { //must have at least a theme and not = NULL   POST
   $hostuserid     = sanitize('hostuserid');
