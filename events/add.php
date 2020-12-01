@@ -1,7 +1,6 @@
 <?php
 require_once '../_common.php';
 login();
-echo $loggedIn;
 $venues = sql('SELECT venueID, name, address, contact FROM venues');
 ?>
 <!DOCTYPE html>

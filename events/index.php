@@ -5,8 +5,10 @@ login();
 # Get event id, redirect to the list if no event id was given:
 redirect_unless($eventid = sanitize('id'), 'events/list.php');
 
+sql("CALL update_activities");
 ### REQ-2: three-table join
 # Prepare main query for this event:
+
 $query = <<<SQL
 SELECT e.eventid, hostuserid, eventNo, theme, datetime_start, datetime_end,
        getNumUsers(e.eventid) attendees, v.name, u.first_name, u.last_name, a.userid
