@@ -10,7 +10,7 @@ $userid = $loggedIn;
 #SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 # Songs found
 $songs = sql('SELECT musicid, title, artist, first_name, last_name, songs.userid
-  FROM songs, users WHERE songs.userid = users.userid GROUP BY artist');
+  FROM songs, users WHERE songs.userid = users.userid ORDER BY artist');
 ?>
 <!DOCTYPE html>
 <html lang="en">
