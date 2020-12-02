@@ -3,10 +3,9 @@ require_once '../_common.php';
 login();
 
 # Get item id, quit if none was given:
-quit_unless($itemid = sanitize('itemid'), 'No item ID was passed for processing.');
-# Get the rest of the passed values:
-$catid     = sanitize('catid');
-$item_name = sanitize('item_name');
+quit_unless($itemid    = sanitize('itemid'),    'No item ID was passed for processing.');
+quit_unless($item_name = sanitize('item_name'), 'Item Name is required.');
+quit_unless($catid     = sanitize('catid'),     'Category is required.');
 
 # UPDATE
 $query = 'UPDATE items SET item_name=?, catid=? WHERE itemid=?';

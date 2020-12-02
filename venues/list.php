@@ -5,17 +5,9 @@ login();
 # Venues found:
 $venues = sql('SELECT venueid, name, address, contact FROM venues');
 ?>
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Raver</title>
-    <meta charset="utf-8">
-  </head>
-  <body>
-    <?php main(); ?>
     <h2>Venues</h2>
     <form action="<?=url('venues/manage.php')?>" method="post">
-      <table border=1 cellpadding=5 style="border-collapse: collapse; margin-bottom: 1ex;">
+      <table border=1>
         <tr>
           <th>ID</th>
           <th>Name</th>
@@ -38,5 +30,3 @@ $venues = sql('SELECT venueid, name, address, contact FROM venues');
       <input type="submit" value="Edit / Delete">
       <button formaction="<?=url('venues/add.php')?>">Add new venue</button>
     </form>
-  </body>
-</html>

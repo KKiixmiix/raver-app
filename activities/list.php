@@ -5,17 +5,9 @@ login();
 # Activities found:
 $activities = sql('SELECT actid, act_name FROM activities');
 ?>
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Raver</title>
-    <meta charset="utf-8">
-  </head>
-  <body>
-    <?php main(); ?>
     <h2>Activities</h2>
     <form action="<?=url('activities/manage.php')?>" method="post">
-      <table border=1 cellpadding=5 style="border-collapse: collapse; margin-bottom: 1ex;">
+      <table border=1>
         <tr>
           <th>ID</th>
           <th>Activity</th>
@@ -34,5 +26,3 @@ $activities = sql('SELECT actid, act_name FROM activities');
       <input type="submit" value="Edit / Delete">
       <button formaction="<?=url('activities/add.php')?>">Add new activity</button>
     </form>
-  </body>
-</html>

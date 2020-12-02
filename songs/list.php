@@ -6,22 +6,14 @@ login();
 $userid = $loggedIn;
 
 ### REQ-4: aggregate function
-extract(reset(sql('SELECT SUM(minutes) total FROM songs WHERE userid=?', 'i', $userid)));
+extract(head(sql('SELECT SUM(minutes) total FROM songs WHERE userid=?', 'i', $userid)));
 
 # Songs found
 $songs = sql('SELECT musicid, title, artist, minutes, userid FROM songs WHERE userid=?', 'i', $userid);
 ?>
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Raver</title>
-    <meta charset="utf-8">
-  </head>
-  <body>
-    <?php main(); ?>
     <h2>Songs</h2>
     <form action="<?=url('songs/manage.php')?>" method="post">
-      <table border=1 cellpadding=5 style="border-collapse: collapse; margin-bottom: 1ex;">
+      <table border=1>
         <tr>
           <th>ID</th>
           <th>Title</th>
@@ -51,5 +43,3 @@ $songs = sql('SELECT musicid, title, artist, minutes, userid FROM songs WHERE us
       <input type="submit" value="Edit / Delete">
       <button formaction="<?=url('songs/add.php')?>">Add new song</button>
     </form>
-  </body>
-</html>

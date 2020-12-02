@@ -41,6 +41,7 @@ function redirect($path, $xor = false) {
   if ($loggedIn xor $xor) {
     header("Location: $url/$path");
   }
+  main();
 }
 
 function home($xor = false) {
@@ -51,36 +52,8 @@ function login($xor = true) {
   redirect('raver_login.php', $xor);
 }
 
-function user() {
-  global $loggedIn;
-  $div = '<div style="float:right">%s</div>';
-  if ($loggedIn) {
-    printf($div, "User #$loggedIn is logged in");
-  } else {
-    printf($div, 'No user is logged in');
-  }
-}
-
 function main() {
-  global $url, $loggedIn, $mainPrinted;
-  if ($mainPrinted) {
-    return;
-  }
-  user();
-  $links = ['HOME' => ''] + ($loggedIn ? [
-    'Users'      => 'users/list.php',
-    'Events'     => 'events/list.php',
-    'Venues'     => 'venues/list.php',
-    'Songs'      => 'songs/list.php',
-    'Activities' => 'activities/list.php',
-    'Items'      => 'items/list.php',
-    'LOG OUT'    => 'logout.php',
-  ] : []);
-  foreach ($links as $text => $link) {
-    $a[] = "<a href=\"$url/$link\"><b>$text</b></a>";
-  }
-  echo join('&nbsp; • &nbsp;', $a);
-  $mainPrinted = true;
+  require_once 'tpl/main.php';
 }
 
 function url(string $path) {
@@ -105,6 +78,17 @@ function redirect_unless($condition, string $path = '') {
   }
 }
 
+function template_if($condition, string $path = '') {
+  if ($condition) {
+    require $path;
+    exit();
+  }
+}
+
+function template_unless($condition, string $path = '') {
+  template_if(!$condition, $path);
+}
+
 function sanitize($param) {
   return filter_var($_POST[$param] ?? $_GET[$param] ?? '', FILTER_SANITIZE_STRING);
 }
@@ -125,13 +109,17 @@ function fullName(?string ...$parts) {
 }
 
 function quit(?string $message = null) {
-  main();
+  // main();
   $message = $message ?? 'Oh no! Something went wrong!';
   $error = [];
   if ($db = db(false)) {
     $error[] = $db->error ?? '';
   }
   exit("<h3>$message</h3>" . join('<br>', $error));
+}
+
+function head(array $array = []) {
+  return reset($array);
 }
 
 function delete(string $entity, string $table, string $xid, int $id) {
@@ -150,8 +138,11 @@ function insert(string $entity, string $table, string $columns, string $types, .
   $questions = '?' . str_repeat(',?', count($params) - 1);
   # Insertion SQL:
   $query = "INSERT INTO $table ($columns) VALUES ($questions)";
+  # Make a success message:
+  $msg = "A new $entity was successfully inserted.";
+  $msg .= strpos($table, '_') ? '' : "<br>Go to <a href='".url("$table/list.php")."'>$table list</a>.";
   # Attempt to perform "insert" and see if exactly one entity was inserted:
-  quit_if(1 === sql($query, $types, ...$params), "A new $entity was successfully inserted.");
+  quit_if(1 === sql($query, $types, ...$params), $msg);
   # Otherwise inform of an error:
   quit("Error trying to insert a new $entity.");
 }
@@ -165,7 +156,7 @@ function update(string $entity, string $query, string $types = null, int $id, ..
 
 function manage(string $entity, string $query, string $types = null, ...$params) {
   # Get associated data for editing:
-  quit_unless($data = reset(sql($query, $types, ...$params)), "The $entity with passed parameters not found.");
+  quit_unless($data = head(sql($query, $types, ...$params)), "The $entity with passed parameters not found.");
   # Return found data for extraction:
   return $data;
 }
@@ -219,4 +210,20 @@ function disabled($condition) {
 
 function selected($condition) {
   return $condition ? ' selected' : '';
+}
+
+function required($condition) {
+  return $condition ? ' required' : '';
+}
+
+function action($isCreate, $isSignUp = false) {
+  return $isSignUp ? 'Sign up' : ['Edit', 'Add New'][!!$isCreate];
+}
+
+function submit($isCreate, $isSignUp = false) {
+  return $isSignUp ? 'Sign up' : ['Update', 'Create'][!!$isCreate];
+}
+
+function local(string $dt, string $t = 'T'): string {
+  return substr(strtr(date(DATE_ATOM, strtotime($dt)), 'T', $t), 0, -9);
 }

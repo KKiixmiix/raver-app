@@ -13,17 +13,9 @@ SQL;
 # Users found
 $users = sql($query);
 ?>
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Raver</title>
-    <meta charset="utf-8">
-  </head>
-  <body>
-    <?php main(); ?>
     <h2>Users</h2>
     <form action="<?=url('users/manage.php')?>" method="post">
-      <table border=1 cellpadding=5 style="border-collapse: collapse; margin-bottom: 1ex;">
+      <table border=1>
         <tr>
           <th>ID</th>
           <th>First Name</th>
@@ -50,5 +42,3 @@ $users = sql($query);
       <input type="submit" value="Edit / Delete"<?=disabled($users)?>>
       <button formaction="<?=url('users/add.php')?>">Invite new user</button>
     </form>
-  </body>
-</html>

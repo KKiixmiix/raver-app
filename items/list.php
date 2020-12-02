@@ -12,17 +12,9 @@ SQL;
 # Items found:
 $items = sql($query);
 ?>
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Raver</title>
-    <meta charset="utf-8">
-  </head>
-  <body>
-    <?php main(); ?>
     <h2>Items</h2>
     <form action="<?=url('items/manage.php')?>" method="post">
-      <table border=1 cellpadding=5 style="border-collapse: collapse; margin-bottom: 1ex;">
+      <table border=1>
         <tr>
           <th>ID</th>
           <th>Item</th>
@@ -43,5 +35,3 @@ $items = sql($query);
       <input type="submit" value="Edit / Delete">
       <button formaction="<?=url('items/add.php')?>">Add new item</button>
     </form>
-  </body>
-</html>

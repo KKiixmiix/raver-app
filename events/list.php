@@ -16,18 +16,5 @@ SQL;
 # Events found
 $events = sql($query, 'i', $loggedIn);
 ?>
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Raver</title>
-    <meta charset="utf-8">
-    <style>
-      th[emoticon]{font-family:'Apple Color Emoji'}
-    </style>
-  </head>
-  <body>
-    <?php main(); ?>
     <h2>Events</h2>
 <?php include_once 'list-template.php'; ?>
-  </body>
-</html>

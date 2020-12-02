@@ -1,6 +1,6 @@
     <!-- BEGIN events/list-template.php (common for events/list.php and events/index.php) -->
     <form action="<?=url('events/manage.php')?>" method="post">
-      <table border=1 cellpadding=5 style="border-collapse: collapse; margin-bottom: 1ex;">
+      <table border=1>
         <tr>
 <?php if ($showID = isset($events)): ?>
           <th>ID</th>
@@ -30,8 +30,8 @@
 <?php endif; ?>
           <td><?=$name?></td>
           <th><?=$attendees?></th>
-          <td><?=$datetime_start?></td>
-          <td><?=$datetime_end?></td>
+          <td><?=local($datetime_start, ' ')?></td>
+          <td><?=local($datetime_end, ' ')?></td>
 <?php if ($ended && 1): ?>
           <th emoticon>❌️</th>
 <?php else: ?>

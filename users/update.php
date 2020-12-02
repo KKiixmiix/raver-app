@@ -2,15 +2,15 @@
 require_once '../_common.php';
 login();
 
-# Get user id, quit if none was given:
-quit_unless($userid = sanitize('userid'), 'No user ID was passed for processing.');
+# Get required parameters, quit if they are missing or emtpy:
+quit_unless($userid     = sanitize('userid'),     'No user ID was passed for processing.');
+quit_unless($first_name = sanitize('first_name'), 'First name is required.');
+quit_unless($last_name  = sanitize('last_name'),  'Last name is required.');
+quit_unless($email      = sanitize('email'),      'Email is required.');
 # Get the rest of the passed values:
-$last_name  = sanitize('last_name');
-$first_name = sanitize('first_name');
-$email      = sanitize('email');
-$phone      = sanitize('phone')     ?: null;
-$password   = sanitize('password')  ?: null;
-$invitedby  = sanitize('invitedby') ?: null;
+$phone     = sanitize('phone')     ?: null;
+$invitedby = sanitize('invitedby') ?: null;
+$password  = sanitize('password')  ?: null;
 
 # UPDATE
 $params = [$invitedby, $last_name, $first_name, $email, $phone];

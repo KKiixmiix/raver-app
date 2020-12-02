@@ -8,7 +8,7 @@ redirect_unless($eventid = sanitize('id'), 'events/list.php');
 ### REQ-2: three-table join
 # Prepare main query for this event:
 $query = <<<SQL
-SELECT e.eventid, hostuserid, eventNo, theme, datetime_start, datetime_end,
+SELECT e.eventid, hostuserid, eventNo, theme, datetime_start, datetime_end, IF(datetime_end<NOW(),1,0) ended,
        getNumUsers(e.eventid) attendees, v.name, u.first_name, u.last_name, a.userid
   FROM      events          e
        JOIN venues          v USING (venueid)
@@ -19,7 +19,7 @@ SELECT e.eventid, hostuserid, eventNo, theme, datetime_start, datetime_end,
 SQL;
 
 # Extract data from the database for the query above:
-$event = reset(sql($query, 'ii', $loggedIn, $eventid));
+$event = head(sql($query, 'ii', $loggedIn, $eventid));
 quit_unless($event, "Event #$eventid does not exist");
 extract($event);
 
@@ -37,13 +37,13 @@ $event_attendees = sql($query, 'i', $eventid);
 ### REQ-1: two-table join
 # Find associated event activities:
 $query = <<<SQL
-SELECT ea.id eaid, act_name, signedUp(ea.id) signedup, minusers, maxusers
+SELECT ea.id eaid, act_name, signedUp(ea.id) signedup, minusers, maxusers, attendsEventActivity(?,ea.id) attending
   FROM event_activities ea
   JOIN       activities  a USING (actid)
  WHERE eventid = ?
  ORDER BY ea.id
 SQL;
-$event_activities = sql($query, 'i', $eventid);
+$event_activities = sql($query, 'ii', $loggedIn, $eventid);
 
 ### REQ-2: three-table join
 # Find associated event activity attendees:
@@ -57,24 +57,12 @@ SELECT ea.id, u.userid, first_name, last_name
 SQL;
 $event_activity_attendees = sql($query, 'i', $eventid);
 ?>
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Raver</title>
-    <meta charset="utf-8">
-    <style>
-      td>ol{margin:0 auto}
-      th[emoticon]{font-family:'Apple Color Emoji'}
-    </style>
-  </head>
-  <body>
-    <?php main(); ?>
     <h2>Event ID: <?=$eventid?></h2>
 <?php include_once 'list-template.php'; ?>
 
     <h2>Event Attendees</h2>
     <form action="<?=url('events/x.php')?>" method="post">
-      <table border=1 cellpadding=5 style="border-collapse: collapse;">
+      <table border=1>
         <tr>
           <th>User ID</th>
           <th>First Name</th>
@@ -97,8 +85,8 @@ $event_activity_attendees = sql($query, 'i', $eventid);
     </form>
 
     <h2>Event Activities and their Attendees</h2>
-    <form action="<?=url('events/x.php')?>" method="post">
-      <table border=1 cellpadding=5 style="border-collapse: collapse;">
+    <form action="<?=url('events/activity.php')?>" method="post">
+      <table border=1>
         <tr>
           <th>ID</th>
           <th>Activity</th>
@@ -106,8 +94,9 @@ $event_activity_attendees = sql($query, 'i', $eventid);
           <th>Min</th>
           <th>Max</th>
           <th>On?</th>
-          <!-- <th>Edit</th> -->
-          <!-- <th>Delete</th> -->
+          <th>Edit</th>
+          <th>Delete</th>
+          <th>Attend</th>
         </tr>
 <?php foreach ($event_activities as $act): extract($act); ?>
         <tr>
@@ -117,11 +106,16 @@ $event_activity_attendees = sql($query, 'i', $eventid);
           <th><?=$minusers?></th>
           <th><?=$maxusers?></th>
           <th emoticon><?=$signedup>=$minusers ? '✅' : '❌️'?></th>
-          <!-- <th><input type="radio" name="id" value="u-<?=$eaid?>"></th> -->
-          <!-- <th><input type="radio" name="id" value="d-<?=$eaid?>"></th> -->
+          <th><input type="radio" name="eaid" value="u-<?=$eaid?>"></th>
+          <th><input type="radio" name="eaid" value="d-<?=$eaid?>"></th>
+<?php if ($attending): ?>
+          <th emoticon>☑</th>
+<?php else: ?>
+          <th><input type="radio" name="eaid" value="a-<?=$eaid?>"></th>
+<?php endif; ?>
         </tr>
         <tr>
-          <td colspan="6">
+          <td colspan="9">
 <?php if ($signedup): ?>
             <ol>
 <?php foreach ($event_activity_attendees as $attendee): extract($attendee); ?>
@@ -137,8 +131,6 @@ $event_activity_attendees = sql($query, 'i', $eventid);
         </tr>
 <?php endforeach; ?>
       </table>
-      <!-- <input type="submit" value="Edit / Delete"> -->
-      <!-- <button formaction="<?=url('events/add.php')?>">Add new activity</button> -->
+      <input type="submit" value="Edit / Delete / Attend">
+      <button formaction="<?=url('events/activity.php')?>" formmethod="post" name="eventid" value="<?=$eventid?>">Add new event activity</button>
     </form>
-  </body>
-</html>
