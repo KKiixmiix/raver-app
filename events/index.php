@@ -137,6 +137,6 @@ $event_activity_attendees = sql($query, 'i', $eventid);
 <?php endforeach; ?>
       </table>
     </form>
-    <input type="submit" form="manage-event-activity" value="Edit / Delete"<?=disabled($event_activities)?>>
+    <input type="submit" form="manage-event-activity" value="Edit / Delete / Attend"<?=disabled($event_activities)?>>
     <button form="add-event-activity" name="eventid" value="<?=$eventid?>">Add new event activity</button>
     <form action="<?=url('events/activity.php')?>" method="post" id="add-event-activity"></form>
