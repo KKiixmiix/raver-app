@@ -23,7 +23,7 @@ $venues = sql('SELECT venueid vid, name FROM venues ORDER BY venueid');
 <?php endif; ?>
         <tr><th><label for="h">Host:</label></th>
             <td>
-              <select id="h" name="hostuserid" disabled><!-- Disabled because logic to change the host requires Event ID change. -->
+              <select id="h" name="hostuserid"<?=disabled($create)?>><!-- Disabled because logic to change the host requires Event ID change. -->
 <?php foreach ($users as $user): extract($user); ?>
                 <option value="<?=$uid?>"<?=selected($hostuserid==$uid)?>><?=fullName($lnm, $fnm)?></option>
 <?php endforeach; ?>
