@@ -75,8 +75,8 @@ $event_activity_attendees = sql($query, 'i', $eventid);
           <th><?=$userid?></th>
           <td><?=$first_name?></td>
           <td><?=$last_name?></td>
-          <!-- <th><input type="radio" name="id" value="u-<?=$userid?>"></th> -->
-          <!-- <th><input type="radio" name="id" value="d-<?=$userid?>"></th> -->
+          <!-- <th><input type="radio" required name="id" value="u-<?=$userid?>"></th> -->
+          <!-- <th><input type="radio" required name="id" value="d-<?=$userid?>"></th> -->
         </tr>
 <?php endforeach; ?>
       </table>
@@ -106,12 +106,12 @@ $event_activity_attendees = sql($query, 'i', $eventid);
           <th><?=$minusers?></th>
           <th><?=$maxusers?></th>
           <th emoticon><?=$signedup>=$minusers ? '✅' : '❌️'?></th>
-          <th><input type="radio" name="eaid" value="u-<?=$eaid?>"></th>
-          <th><input type="radio" name="eaid" value="d-<?=$eaid?>"></th>
+          <th><input type="radio" required name="eaid" value="u-<?=$eaid?>"></th>
+          <th><input type="radio" required name="eaid" value="d-<?=$eaid?>"></th>
 <?php if ($attending): ?>
-          <th emoticon>☑</th>
+          <th emoticon>✅</th>
 <?php else: ?>
-          <th><input type="radio" name="eaid" value="a-<?=$eaid?>"></th>
+          <th><input type="radio" required name="eaid" value="a-<?=$eaid?>"></th>
 <?php endif; ?>
         </tr>
         <tr>

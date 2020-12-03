@@ -27,8 +27,8 @@ $items = sql($query);
           <th><?=$itemid?></th>
           <td><?=$item_name?></td>
           <td><?=$cat_name?></td>
-          <th><input type="radio" name="itemid" value="u-<?=$itemid?>"></th>
-          <th><input type="radio" name="itemid" value="d-<?=$itemid?>"></th>
+          <th><input type="radio" required name="itemid" value="u-<?=$itemid?>"></th>
+          <th><input type="radio" required name="itemid" value="d-<?=$itemid?>"></th>
         </tr>
 <?php endforeach; ?>
       </table>

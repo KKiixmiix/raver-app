@@ -18,8 +18,8 @@ $activities = sql('SELECT actid, act_name FROM activities');
         <tr>
           <th><?=$actid?></th>
           <td><?=$act_name?></td>
-          <th><input type="radio" name="actid" value="u-<?=$actid?>"></th>
-          <th><input type="radio" name="actid" value="d-<?=$actid?>"></th>
+          <th><input type="radio" required name="actid" value="u-<?=$actid?>"></th>
+          <th><input type="radio" required name="actid" value="d-<?=$actid?>"></th>
         </tr>
 <?php endforeach; ?>
       </table>

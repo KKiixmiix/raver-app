@@ -1,6 +1,6 @@
 <?php
 
-error_reporting(E_ERROR | E_PARSE);
+// error_reporting(E_ERROR | E_PARSE);
 
 session_start();
 
@@ -10,12 +10,12 @@ $url = '';
 
 $mysqli = null;
 
-$mainPrinted = false;
+$debug = false;
 
 define_env_vars();
 
 function define_env_vars() {
-  global $url;
+  global $url, $loggedIn;
   $abs = dirname(__FILE__) . '/';
   $vars = $path = '';
   foreach (['.env', '../', '../'] as $part) {
@@ -24,7 +24,7 @@ function define_env_vars() {
       break;
     }
   }
-  $vars or exit('Config file not found.');
+  $vars or quit('Config file not found.', $loggedIn = false);
   foreach (explode("\n", $vars) as $var) {
     if (2 == count($var = explode('=', $var, 2))) {
       [$name, $value] = [trim($var[0]), trim($var[1])];
@@ -52,7 +52,7 @@ function login($xor = true) {
   redirect('raver_login.php', $xor);
 }
 
-function main() {
+function main($checkDB = true) {
   require_once 'tpl/main.php';
 }
 
@@ -62,14 +62,14 @@ function url(string $path) {
   return "$url/$path";
 }
 
-function quit_if($condition, ?string $message = null) {
+function quit_if($condition, ?string $message = null, bool $error = false) {
   if ($condition) {
-    quit($message ?: 'You have reached this page in error');
+    quit($message ?: 'You have reached this page in error', $error);
   }
 }
 
-function quit_unless($condition, ?string $message = null) {
-  quit_if(!$condition, $message);
+function quit_unless($condition, ?string $message = null, bool $error = true) {
+  quit_if(!$condition, $message, $error);
 }
 
 function redirect_unless($condition, string $path = '') {
@@ -78,19 +78,8 @@ function redirect_unless($condition, string $path = '') {
   }
 }
 
-function template_if($condition, string $path = '') {
-  if ($condition) {
-    require $path;
-    exit();
-  }
-}
-
-function template_unless($condition, string $path = '') {
-  template_if(!$condition, $path);
-}
-
 function sanitize($param) {
-  return filter_var($_POST[$param] ?? $_GET[$param] ?? '', FILTER_SANITIZE_STRING);
+  return trim(filter_var($_POST[$param] ?? $_GET[$param] ?? '', FILTER_SANITIZE_STRING));
 }
 
 function getTypeAndId(string $id, string $entity, array $types = ['u', 'd']): array {
@@ -108,14 +97,19 @@ function fullName(?string ...$parts) {
   return join(', ', array_filter($parts));
 }
 
-function quit(?string $message = null) {
-  // main();
+function quit(?string $message = null, bool $error = true, bool $checkDB = true, ?string $sql = null) {
+  main($checkDB);
   $message = $message ?? 'Oh no! Something went wrong!';
-  $error = [];
-  if ($db = db(false)) {
-    $error[] = $db->error ?? '';
+  $errors = [];
+  if ($checkDB && $db = db(false)) {
+    $db->error && $errors[] = $db->error;
   }
-  exit("<h3>$message</h3>" . join('<br>', $error));
+  $message and [$h2, $hxAttr] = [$message, $error || $errors ? ' error' : ''];
+  $errors and $ul = $errors;
+  if ($message || $error || $errors) {
+    require 'tpl/message.php';
+  }
+  exit();
 }
 
 function head(array $array = []) {
@@ -224,6 +218,7 @@ function submit($isCreate, $isSignUp = false) {
   return $isSignUp ? 'Sign up' : ['Update', 'Create'][!!$isCreate];
 }
 
-function local(string $dt, string $t = 'T'): string {
-  return substr(strtr(date(DATE_ATOM, strtotime($dt)), 'T', $t), 0, -9);
+function local(?string $dt, string $t = 'T'): string {
+  $dt = strtotime($dt);
+  return $dt ? substr(strtr(date(DATE_ATOM, $dt), 'T', $t), 0, -9) : '';
 }

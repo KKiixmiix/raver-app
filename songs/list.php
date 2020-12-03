@@ -28,8 +28,8 @@ $songs = sql('SELECT musicid, title, artist, minutes, userid FROM songs WHERE us
           <td><?=$title  ?></td>
           <td><?=$artist ?></td>
           <th><?=$minutes?></th>
-          <th><input type="radio" name="musicid" value="u-<?=$musicid?>"></th>
-          <th><input type="radio" name="musicid" value="d-<?=$musicid?>"></th>
+          <th><input type="radio" required name="musicid" value="u-<?=$musicid?>"></th>
+          <th><input type="radio" required name="musicid" value="d-<?=$musicid?>"></th>
         </tr>
 <?php endforeach; ?>
         <tfoot>

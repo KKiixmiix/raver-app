@@ -22,8 +22,8 @@ $venues = sql('SELECT venueid, name, address, contact FROM venues');
           <td><?=$name   ?></td>
           <td><?=$address?></td>
           <td><?=$contact?></td>
-          <th><input type="radio" name="venueid" value="u-<?=$venueid?>"></th>
-          <th><input type="radio" name="venueid" value="d-<?=$venueid?>"></th>
+          <th><input type="radio" required name="venueid" value="u-<?=$venueid?>"></th>
+          <th><input type="radio" required name="venueid" value="d-<?=$venueid?>"></th>
         </tr>
 <?php endforeach; ?>
       </table>

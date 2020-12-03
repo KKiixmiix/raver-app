@@ -32,28 +32,27 @@
           <th><?=$attendees?></th>
           <td><?=local($datetime_start, ' ')?></td>
           <td><?=local($datetime_end, ' ')?></td>
-<?php if ($ended && 1): ?>
-          <th emoticon>❌️</th>
-<?php else: ?>
-          <th><input type="radio" name="eventid" value="u-<?=$eventid?>"></th>
-<?php endif; ?>
-<?php if ($loggedIn == $hostuserid): ?>
 <?php if ($ended): ?>
-          <th emoticon>❌️</th>
+          <th emoticon title="This event is in the past and cannot be edited">❌️</th>
 <?php else: ?>
-          <th><input type="radio" name="eventid" value="d-<?=$eventid?>"></th>
+          <th><input type="radio" required name="eventid" value="u-<?=$eventid?>"></th>
 <?php endif; ?>
-          <th emoticon>☑</th>
-<?php elseif ($loggedIn == $userid): ?>
-          <th emoticon>⛔️</th><!-- &#x1F42d;&#x1F321; -->
-          <th emoticon>✅</th>
+<?php if ($loggedIn == $hostuserid): /* Current user is hosting this event */ ?>
+<?php   if ($ended): ?>
+          <th emoticon title="This event is in the past and cannot be deleted">❌️</th>
+<?php   else: ?>
+          <th><input type="radio" required name="eventid" value="d-<?=$eventid?>"></th>
+<?php   endif; ?>
+          <th emoticon title="You are the host of this event, so you attend it by default">☑</th>
 <?php else: ?>
-          <th emoticon>⛔️</th>
-<?php if ($ended): ?>
-          <th emoticon>❌️</th>
-<?php else: ?>
-          <th><input type="radio" name="eventid" value="a-<?=$eventid?>"></th>
-<?php endif; ?>
+          <th emoticon title="You're not the host of this event, deletion forbidden">⛔️</th>
+<?php   if ($loggedIn == $userid): /* Current user is attending this event */ ?>
+          <th emoticon title="You signed up to attend this event">✅</th>
+<?php   elseif ($ended): /* The event already ended */ ?>
+          <th emoticon title="This event ended and cannot be attended anymore">❌️</th>
+<?php   else: /* User can still sign up to attend the event */ ?>
+          <th><input type="radio" required name="eventid" value="a-<?=$eventid?>"></th>
+<?php   endif; ?>
 <?php endif; ?>
         </tr>
 <?php endforeach; ?>

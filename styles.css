@@ -17,3 +17,5 @@ table[edit] td input {width: calc(100% - 8px);}
 
 table[edit] input:not([type="submit"]):valid   {border-color:green}
 table[edit] input:not([type="submit"]):invalid {border-color:red}
+
+h1[error], h2[error], h3[error], ol[error], ul[error] {color:red}

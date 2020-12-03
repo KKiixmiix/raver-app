@@ -34,8 +34,8 @@ $users = sql($query);
           <td><?=$email?></td>
           <td><?=$phone?></td>
           <td><?=fullName($invitor_last, $invitor_first)?></td>
-          <th><input type="radio" name="userid" value="u-<?=$userid?>"></th>
-          <th><input type="radio" name="userid" value="d-<?=$userid?>"></th>
+          <th><input type="radio" required name="userid" value="u-<?=$userid?>"></th>
+          <th><input type="radio" required name="userid" value="d-<?=$userid?>"></th>
         </tr>
 <?php endforeach; ?>
       </table>
