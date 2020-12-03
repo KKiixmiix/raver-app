@@ -1,5 +1,6 @@
+<?php $radios = 0; ?>
     <!-- BEGIN events/list-template.php (common for events/list.php and events/index.php) -->
-    <form action="<?=url('events/manage.php')?>" method="post">
+    <form action="<?=url('events/manage.php')?>" method="post" id="manage-event">
       <table border=1>
         <tr>
 <?php if ($showID = isset($events)): ?>
@@ -8,7 +9,7 @@
           <th>Event</th>
           <th>Host</th>
           <th>Theme</th>
-          <th>Location</th>
+          <th>Venue</th>
           <th>Attendees</th>
           <th>Start Date/Time</th>
           <th>End Date/Time</th>
@@ -34,13 +35,13 @@
           <td><?=local($datetime_end, ' ')?></td>
 <?php if ($ended): ?>
           <th emoticon title="This event is in the past and cannot be edited">❌️</th>
-<?php else: ?>
+<?php else: $radios++; ?>
           <th><input type="radio" required name="eventid" value="u-<?=$eventid?>"></th>
 <?php endif; ?>
 <?php if ($loggedIn == $hostuserid): /* Current user is hosting this event */ ?>
 <?php   if ($ended): ?>
           <th emoticon title="This event is in the past and cannot be deleted">❌️</th>
-<?php   else: ?>
+<?php   else: $radios++; ?>
           <th><input type="radio" required name="eventid" value="d-<?=$eventid?>"></th>
 <?php   endif; ?>
           <th emoticon title="You are the host of this event, so you attend it by default">☑</th>
@@ -50,14 +51,15 @@
           <th emoticon title="You signed up to attend this event">✅</th>
 <?php   elseif ($ended): /* The event already ended */ ?>
           <th emoticon title="This event ended and cannot be attended anymore">❌️</th>
-<?php   else: /* User can still sign up to attend the event */ ?>
+<?php   else: $radios++; /* User can still sign up to attend the event */ ?>
           <th><input type="radio" required name="eventid" value="a-<?=$eventid?>"></th>
 <?php   endif; ?>
 <?php endif; ?>
         </tr>
 <?php endforeach; ?>
       </table>
-      <input type="submit" value="Edit / Delete / Attend"<?=disabled($events??$event)?>>
-      <button formaction="<?=url('events/add.php')?>">Add new event</button>
     </form>
+    <input type="submit" form="manage-event" value="Edit / Delete / Attend"<?=disabled($radios)?>>
+    <button form="add-event">Add new event</button>
+    <form action="<?=url('events/add.php')?>" method="post" id="add-event"></form>
     <!-- END events/list-template.php -->

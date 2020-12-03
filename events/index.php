@@ -61,7 +61,7 @@ $event_activity_attendees = sql($query, 'i', $eventid);
 <?php include_once 'list-template.php'; ?>
 
     <h2>Event Attendees</h2>
-    <form action="<?=url('events/x.php')?>" method="post">
+    <form action="<?=url('events/attendees.php')?>" method="post" id="manage-event-attendee">
       <table border=1>
         <tr>
           <th>User ID</th>
@@ -80,12 +80,13 @@ $event_activity_attendees = sql($query, 'i', $eventid);
         </tr>
 <?php endforeach; ?>
       </table>
-      <!-- <input type="submit" value="Edit / Delete"> -->
-      <!-- <button formaction="<?=url('events/add.php')?>">Add new attendee</button> -->
     </form>
+    <!-- <input type="submit" form="manage-event-attendee" value="Edit / Delete"<?=disabled($event_attendees)?>> -->
+    <!-- <button form="add-event-attendee">Add new event attendee</button> -->
+    <!-- <form action="<?=url('events/attendees.php')?>" method="post" id="add-event-attendee"></form> -->
 
     <h2>Event Activities and their Attendees</h2>
-    <form action="<?=url('events/activity.php')?>" method="post">
+    <form action="<?=url('events/activity.php')?>" method="post" id="manage-event-activity">
       <table border=1>
         <tr>
           <th>ID</th>
@@ -131,6 +132,7 @@ $event_activity_attendees = sql($query, 'i', $eventid);
         </tr>
 <?php endforeach; ?>
       </table>
-      <input type="submit" value="Edit / Delete / Attend">
-      <button formaction="<?=url('events/activity.php')?>" formmethod="post" name="eventid" value="<?=$eventid?>">Add new event activity</button>
     </form>
+    <input type="submit" form="manage-event-activity" value="Edit / Delete"<?=disabled($event_activities)?>>
+    <button form="add-event-activity" name="eventid" value="<?=$eventid?>">Add new event activity</button>
+    <form action="<?=url('events/activity.php')?>" method="post" id="add-event-activity"></form>

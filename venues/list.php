@@ -6,7 +6,7 @@ login();
 $venues = sql('SELECT venueid, name, address, contact FROM venues');
 ?>
     <h2>Venues</h2>
-    <form action="<?=url('venues/manage.php')?>" method="post">
+    <form action="<?=url('venues/manage.php')?>" method="post" id="manage-venue">
       <table border=1>
         <tr>
           <th>ID</th>
@@ -19,7 +19,7 @@ $venues = sql('SELECT venueid, name, address, contact FROM venues');
 <?php foreach ($venues as $venue): extract($venue); ?>
         <tr>
           <th><?=$venueid?></th>
-          <td><?=$name   ?></td>
+          <td><?=$name?></td>
           <td><?=$address?></td>
           <td><?=$contact?></td>
           <th><input type="radio" required name="venueid" value="u-<?=$venueid?>"></th>
@@ -27,6 +27,7 @@ $venues = sql('SELECT venueid, name, address, contact FROM venues');
         </tr>
 <?php endforeach; ?>
       </table>
-      <input type="submit" value="Edit / Delete">
-      <button formaction="<?=url('venues/add.php')?>">Add new venue</button>
     </form>
+    <input type="submit" form="manage-venue" value="Edit / Delete"<?=disabled($venues)?>>
+    <button form="add-venue">Add new venue</button>
+    <form action="<?=url('venues/add.php')?>" method="post" id="add-venue"></form>

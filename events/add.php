@@ -35,7 +35,7 @@ $venues = sql('SELECT venueid vid, name FROM venues ORDER BY venueid');
             <td><input id="s" type="datetime-local" name="datetime_start" value="<?=local($datetime_start??'')?>" required></td></tr>
         <tr><th><label for="e">End Date/Time:</label></th>
             <td><input id="e" type="datetime-local" name="datetime_end" value="<?=local($datetime_end??'')?>" required></td></tr>
-        <tr><th><label for="v">Location:</label></th>
+        <tr><th><label for="v">Venue:</label></th>
             <td>
               <select id="v" name="venueid">
                 <option value="" disabled<?=selected($create)?>></option>

@@ -12,7 +12,7 @@ extract(head(sql('SELECT SUM(minutes) total FROM songs WHERE userid=?', 'i', $us
 $songs = sql('SELECT musicid, title, artist, minutes, userid FROM songs WHERE userid=?', 'i', $userid);
 ?>
     <h2>Songs</h2>
-    <form action="<?=url('songs/manage.php')?>" method="post">
+    <form action="<?=url('songs/manage.php')?>" method="post" id="manage-song">
       <table border=1>
         <tr>
           <th>ID</th>
@@ -25,8 +25,8 @@ $songs = sql('SELECT musicid, title, artist, minutes, userid FROM songs WHERE us
 <?php foreach ($songs as $song): extract($song); ?>
         <tr>
           <th><?=$musicid?></th>
-          <td><?=$title  ?></td>
-          <td><?=$artist ?></td>
+          <td><?=$title?></td>
+          <td><?=$artist?></td>
           <th><?=$minutes?></th>
           <th><input type="radio" required name="musicid" value="u-<?=$musicid?>"></th>
           <th><input type="radio" required name="musicid" value="d-<?=$musicid?>"></th>
@@ -40,6 +40,7 @@ $songs = sql('SELECT musicid, title, artist, minutes, userid FROM songs WHERE us
           </tr>
         </tfoot>
       </table>
-      <input type="submit" value="Edit / Delete">
-      <button formaction="<?=url('songs/add.php')?>">Add new song</button>
     </form>
+    <input type="submit" form="manage-song" value="Edit / Delete"<?=disabled($songs)?>>
+    <button form="add-song">Add new song</button>
+    <form action="<?=url('songs/add.php')?>" method="post" id="add-song"></form>

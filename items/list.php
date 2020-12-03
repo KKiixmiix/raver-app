@@ -13,7 +13,7 @@ SQL;
 $items = sql($query);
 ?>
     <h2>Items</h2>
-    <form action="<?=url('items/manage.php')?>" method="post">
+    <form action="<?=url('items/manage.php')?>" method="post" id="manage-item">
       <table border=1>
         <tr>
           <th>ID</th>
@@ -32,6 +32,7 @@ $items = sql($query);
         </tr>
 <?php endforeach; ?>
       </table>
-      <input type="submit" value="Edit / Delete">
-      <button formaction="<?=url('items/add.php')?>">Add new item</button>
     </form>
+    <input type="submit" form="manage-item" value="Edit / Delete"<?=disabled($items)?>>
+    <button form="add-item">Add new item</button>
+    <form action="<?=url('items/add.php')?>" method="post" id="add-item"></form>

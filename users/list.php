@@ -14,7 +14,7 @@ SQL;
 $users = sql($query);
 ?>
     <h2>Users</h2>
-    <form action="<?=url('users/manage.php')?>" method="post">
+    <form action="<?=url('users/manage.php')?>" method="post" id="manage-user">
       <table border=1>
         <tr>
           <th>ID</th>
@@ -39,6 +39,7 @@ $users = sql($query);
         </tr>
 <?php endforeach; ?>
       </table>
-      <input type="submit" value="Edit / Delete"<?=disabled($users)?>>
-      <button formaction="<?=url('users/add.php')?>">Invite new user</button>
     </form>
+    <input type="submit" form="manage-user" value="Edit / Delete"<?=disabled($users)?>>
+    <button form="add-user">Add new user</button>
+    <form action="<?=url('users/add.php')?>" method="post" id="add-user"></form>

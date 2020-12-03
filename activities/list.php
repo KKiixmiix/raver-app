@@ -6,7 +6,7 @@ login();
 $activities = sql('SELECT actid, act_name FROM activities');
 ?>
     <h2>Activities</h2>
-    <form action="<?=url('activities/manage.php')?>" method="post">
+    <form action="<?=url('activities/manage.php')?>" method="post" id="manage-activity">
       <table border=1>
         <tr>
           <th>ID</th>
@@ -23,6 +23,7 @@ $activities = sql('SELECT actid, act_name FROM activities');
         </tr>
 <?php endforeach; ?>
       </table>
-      <input type="submit" value="Edit / Delete">
-      <button formaction="<?=url('activities/add.php')?>">Add new activity</button>
     </form>
+    <input type="submit" form="manage-activity" value="Edit / Delete"<?=disabled($activities)?>>
+    <button form="add-activity">Add new activity</button>
+    <form action="<?=url('activities/add.php')?>" method="post" id="add-activity"></form>
