@@ -106,11 +106,15 @@ $event_activity_attendees = sql($query, 'i', $eventid);
           <th><?=$signedup?></th>
           <th><?=$minusers?></th>
           <th><?=$maxusers?></th>
-          <th emoticon><?=$signedup>=$minusers ? '✅' : '❌️'?></th>
+<?php if ($signedup >= $minusers): ?>
+          <th emoticon title="This activity has enough signed-up attendees to proceed">✅</th>
+<?php else: ?>
+          <th emoticon title="This activity does not have enough attendees signed up">❌️</th>
+<?php endif; ?>
           <th><input type="radio" required name="eaid" value="u-<?=$eaid?>"></th>
           <th><input type="radio" required name="eaid" value="d-<?=$eaid?>"></th>
 <?php if ($attending): ?>
-          <th emoticon>✅</th>
+          <th emoticon title="You signed up for this activity">✅</th>
 <?php else: ?>
           <th><input type="radio" required name="eaid" value="a-<?=$eaid?>"></th>
 <?php endif; ?>
