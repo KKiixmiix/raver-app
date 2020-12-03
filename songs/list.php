@@ -9,9 +9,9 @@ $userid = $loggedIn;
 extract(head(sql('SELECT SUM(minutes) total FROM songs WHERE userid=?', 'i', $userid)));
 
 # Songs found
-$songs = sql('SELECT musicid, title, artist, minutes, userid FROM songs WHERE userid=?', 'i', $userid);
+$songs = sql('SELECT musicid, title, artist, minutes FROM songs WHERE userid=?', 'i', $userid);
 ?>
-    <h2>Songs</h2>
+    <h2>Your Songs</h2>
     <form action="<?=url('songs/manage.php')?>" method="post" id="manage-song">
       <table border=1>
         <tr>
@@ -43,4 +43,6 @@ $songs = sql('SELECT musicid, title, artist, minutes, userid FROM songs WHERE us
     </form>
     <input type="submit" form="manage-song" value="Edit / Delete"<?=disabled($songs)?>>
     <button form="add-song">Add new song</button>
+    <button form="all-songs">All users' songs</button>
     <form action="<?=url('songs/add.php')?>" method="post" id="add-song"></form>
+    <form action="<?=url('songs/all.php')?>" method="post" id="all-songs"></form>

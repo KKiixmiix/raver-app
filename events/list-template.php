@@ -62,4 +62,15 @@
     <input type="submit" form="manage-event" value="Edit / Delete / Attend"<?=disabled($radios)?>>
     <button form="add-event">Add new event</button>
     <form action="<?=url('events/add.php')?>" method="post" id="add-event"></form>
+<?php if ($showID): ?>
+    <br>
+    <form action="<?=url('events/limit-attendees.php')?>" method="get">
+      <fieldset id="contact_field" style="max-width:420px">
+        <legend>Search events with specified minimum number of attendees</legend>
+        <label for="num">Minumum number of attendees:</label>
+        <input type="number" id="num" name="number_attendees" min="0" value="<?=$number_attendees??''?>" required style="width:100px">
+        <input type="submit" value="Search">
+      </fieldset>
+    </form>
+<?php endif; ?>
     <!-- END events/list-template.php -->
