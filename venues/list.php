@@ -1,0 +1,33 @@
+<?php
+require_once '../_common.php';
+login();
+
+# Venues found:
+$venues = sql('SELECT venueid, name, address, contact FROM venues');
+?>
+    <h2>Venues</h2>
+    <form action="<?=url('venues/manage.php')?>" method="post" id="manage-venue">
+      <table border=1>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Address</th>
+          <th>Contact</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+<?php foreach ($venues as $venue): extract($venue); ?>
+        <tr>
+          <th><?=$venueid?></th>
+          <td><?=$name?></td>
+          <td><?=$address?></td>
+          <td><?=$contact?></td>
+          <th><input type="radio" required name="venueid" value="u-<?=$venueid?>"></th>
+          <th><input type="radio" required name="venueid" value="d-<?=$venueid?>"></th>
+        </tr>
+<?php endforeach; ?>
+      </table>
+    </form>
+    <input type="submit" form="manage-venue" value="Edit / Delete"<?=disabled($venues)?>>
+    <button form="add-venue">Add new venue</button>
+    <form action="<?=url('venues/add.php')?>" method="post" id="add-venue"></form>

@@ -1,0 +1,21 @@
+body {font-family:'Linux Libertine Display O','Linux Libertine O','Times New Roman'}
+
+aside {display:block;float:right;min-width:100px;max-width:30%;background-color:lightgray;}
+menu {padding:0!important;margin:0!important}
+menu menuitem {margin-right:12px;position:relative;font-weight:bold;}
+menu menuitem:not(:first-of-type):before {content:'•';position:absolute;left:-11px;color:black;}
+
+table[border="1"] {border-collapse: collapse; border-width: 1px; margin-bottom: 1ex;}
+table[border="1"] tr>* {padding: 3px 5px;}
+td>ol{margin:1px auto}
+th[emoticon] {font-family: 'Apple Color Emoji';}
+
+table[edit] th {text-align: right; vertical-align: top;}
+table[edit] td {min-width: 20em;}
+table[edit] td select {width: 100%;}
+table[edit] td input {width: calc(100% - 8px);}
+
+table[edit] input:not([type="submit"]):valid   {border-color:green}
+table[edit] input:not([type="submit"]):invalid {border-color:red}
+
+h1[error], h2[error], h3[error], ol[error], ul[error] {color:red}
